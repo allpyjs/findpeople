@@ -1,6 +1,10 @@
 [
     {
-        "masked": "mb***yhill@gmail.com",
+        "masked": "mbe*****ll@gmail.com",
+        "matched": "mberryhill@gmail.com"
+    },
+    {
+        "masked": "mbe*****ll@gmail.com",
         "matched": "mberryhill@gmail.com"
     }
 ]

@@ -1,9 +1,8 @@
+from get_urls import load_state_map, generate_urls
+from scraper import scrape_url
+from email_checker import is_possible_email, save_matched
 import tkinter as tk
 from tkinter import scrolledtext, messagebox
-import json
-from get_urls import load_state_map, generate_urls
-from scraper import scrape_urls
-from email_checker import is_possible_email, save_matched
 
 def run_gui():
     def run_scraper():
@@ -20,19 +19,30 @@ def run_gui():
             state_map = load_state_map()
             urls = generate_urls(names, city, state, state_map)
 
-            print(f"Generated {len(urls)} urls, starting scraping...")
+            print(f"Generated {len(urls)} urls, starting scraping one by one...")
 
-            all_emails = scrape_urls(urls)
+            matched_emails = []
 
-            matched_email = is_possible_email(masked_email, all_emails)
-            if matched_email != "no email":
-                save_matched(masked_email, matched_email)
+            for url in urls:
+                emails = scrape_url(url)
+                if not emails:
+                    continue
 
+                matched_email = is_possible_email(masked_email, emails)
+                if matched_email != "no email":
+                    save_matched(masked_email, matched_email)
+                    matched_emails.append(matched_email)
+
+            # Show results in GUI
             result_text.delete("1.0", tk.END)
-            result_text.insert(tk.END, matched_email)
+            if matched_emails:
+                result_text.insert(tk.END, "\n".join(matched_emails))
+            else:
+                result_text.insert(tk.END, "No match found")
 
         except Exception as e:
             messagebox.showerror("Error", str(e))
+
 
     root = tk.Tk()
     root.title("Email Scraper & Checker")
