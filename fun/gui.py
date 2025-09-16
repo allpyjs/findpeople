@@ -11,7 +11,7 @@ def run_gui():
         names = text_names.get("1.0", tk.END).strip().splitlines()
         masked_email = entry_masked.get().strip()
 
-        if not city or not state or not names or not masked_email:
+        if  not state or not names or not masked_email:
             messagebox.showerror("Error", "Please fill in all fields")
             return
 
@@ -47,24 +47,30 @@ def run_gui():
     root = tk.Tk()
     root.title("Email Scraper & Checker")
 
-    tk.Label(root, text="City:").grid(row=0, column=0, sticky="w")
+    # City (optional)
+    tk.Label(root, text="City (optional):").grid(row=0, column=0, sticky="w")
     entry_city = tk.Entry(root, width=30)
     entry_city.grid(row=0, column=1)
 
-    tk.Label(root, text="State:").grid(row=1, column=0, sticky="w")
+    # State (required)
+    tk.Label(root, text="State (2-letter code):").grid(row=1, column=0, sticky="w")
     entry_state = tk.Entry(root, width=30)
     entry_state.grid(row=1, column=1)
 
+    # Full names
     tk.Label(root, text="Full Names (one per line):").grid(row=2, column=0, sticky="nw")
     text_names = scrolledtext.ScrolledText(root, width=40, height=5)
     text_names.grid(row=2, column=1)
 
+    # Masked email
     tk.Label(root, text="Masked Email:").grid(row=3, column=0, sticky="w")
     entry_masked = tk.Entry(root, width=40)
     entry_masked.grid(row=3, column=1)
 
+    # Run button
     tk.Button(root, text="Run Scraper", command=run_scraper).grid(row=4, column=0, columnspan=2, pady=10)
 
+    # Matched email result
     tk.Label(root, text="Matched Email:").grid(row=5, column=0, sticky="nw")
     result_text = scrolledtext.ScrolledText(root, width=40, height=5)
     result_text.grid(row=5, column=1)

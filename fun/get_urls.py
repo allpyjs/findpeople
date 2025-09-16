@@ -10,11 +10,14 @@ def generate_urls(names, city, state_code, state_map):
         raise ValueError(f"Unknown state code: {state_code}")
 
     state_slug = state_full.lower().replace(" ", "-")
-    city_slug = city.lower().replace(" ", "-")
+    city_slug = city.lower().replace(" ", "-") if city else ""
 
     urls = []
     for name in names:
         name_slug = name.strip().lower().replace(" ", "-")
-        url = f"https://www.zabasearch.com/people/{name_slug}/{state_slug}/{city_slug}/"
+        if city_slug:
+            url = f"https://www.zabasearch.com/people/{name_slug}/{state_slug}/{city_slug}/"
+        else:
+            url = f"https://www.zabasearch.com/people/{name_slug}/{state_slug}/"
         urls.append(url)
     return urls
